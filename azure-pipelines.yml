@@ -13,7 +13,7 @@ steps:
 - script: |
     npm install -g @angular/cli
     npm install
-    ng build--prod
+    ng build --prod
   displayName: 'build'
 - task: Bash@3
   inputs:
