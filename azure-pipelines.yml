@@ -28,9 +28,8 @@ steps:
   inputs:
     SonarCloud: 'sonarCloud'
     organization: 'mcmejia1'
-    scannerMode: 'MSBuild'
-    projectKey: 'pet-book-udem'
-    projectName: 'pet-book-udem'
+    scannerMode: 'CLI'
+    configMode: 'file'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Anlisis de código estático'
