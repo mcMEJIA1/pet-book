@@ -7,14 +7,18 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '6.x'
+    versionSpec: '12.x'
     checkLatest: true
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
+- task: CmdLine@2
   displayName: 'build'
-- task: Bash@3
+  inputs:
+    script: |
+      npm install -g @angular/cli
+      npm install
+      ng build --prod
+
+- task: CmdLine@2
+  displayName: 'Unit Tests'
   inputs:
     script: 'npm run test-ci'
