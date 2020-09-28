@@ -1,4 +1,5 @@
 trigger:
+
 - master
 
 pool:
@@ -22,3 +23,19 @@ steps:
   displayName: 'Unit Tests'
   inputs:
     script: 'npm run test-ci'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarCloud'
+    organization: 'mcmejia1'
+    scannerMode: 'MSBuild'
+    projectKey: 'pet-book-udem'
+    projectName: 'pet-book-udem'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Anlisis de código estático'
+
+- task: SonarCloudPublish@1
+  displayName: 'Quality Gate'
+  inputs:
+    pollingTimeoutSec: '300'
