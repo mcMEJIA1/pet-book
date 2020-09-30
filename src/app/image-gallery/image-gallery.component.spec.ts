@@ -30,7 +30,7 @@ describe('ImageGalleryComponent', () => {
     fixture.detectChanges();
   });
 
-  it('debe crearse el componente', () => {
+  it('Debe crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 });
