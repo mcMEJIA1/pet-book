@@ -27,7 +27,7 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'sonarCloud'
-    organization: 'mcmejia1'
+    organization: 'mcMEJIA'
     scannerMode: 'CLI'
     configMode: 'file'
 
