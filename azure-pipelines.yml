@@ -12,7 +12,7 @@ steps:
     checkLatest: true
 
 - task: CmdLine@2
-  displayName: 'build'
+  displayName: 'Build'
   inputs:
     script: |
       npm install -g @angular/cli
