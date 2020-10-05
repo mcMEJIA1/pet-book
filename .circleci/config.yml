@@ -1,0 +1,27 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/src
+    docker:
+      - image: circleci/node:12.18.3
+    steps:
+      - CheckOut
+      - run:
+          name: update-npm
+          command: "sudo npm install -g
+          npm@latest"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm
+          command: npm install
+      - save_cache:
+          key: dependency- -{{ checksum "package.json" }}
+          paths: 
+            - ./node_modules
+      - run:
+          name: build
+          command: ng build --prod
+      - run:
+          name: tests
+          command: npm run test-ci
