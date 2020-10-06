@@ -20,11 +20,8 @@ jobs:
           name: Install local dependencies
           command: npm install
       - run:
-          name: install angular/cli
-          command: npm install @angular/cli
-      - run:
           name: test application
-          command: npm run test-ci-2
+          command: npm run test-ci
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
