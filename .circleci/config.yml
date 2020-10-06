@@ -15,12 +15,12 @@ jobs:
   test:
     <<: *job_defaults
     steps:
-      - run: 
-        name: Install local dependencies
-        command: npm install
       - run:
           name: install angular/cli
           command: npm install @angular/cli
+      - run: 
+          name: Install local dependencies
+          command: npm install
       - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "package-lock.json" }}
