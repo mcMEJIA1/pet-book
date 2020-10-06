@@ -7,23 +7,15 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - run:
-          name: Show current branch
-          command: echo ${CIRCLE_BRANCH}
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-dependencies-
       - run: 
           name: Install local dependencies
           command: npm ci
-      - run:
-          name: Install libXext.i686
-          command: sudo apt-get install libXext.x86_64 -y
-      - run:
-          name: Install libXext.i686
-          command: sudo apt-get install libXrender.x86_64 -y
-      - run:
-          name: Install libXext.i686
-          command: sudo apt-get install libXtst.x86_64 -y
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
           paths:
               - node_modules
       - run: 
