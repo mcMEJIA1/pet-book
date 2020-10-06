@@ -10,7 +10,6 @@ jobs:
       - restore_cache:
           key:
           - v1-dependencies-{{ checksum "package-lock.json" }}
-          - v1-dependencies-
       - run: 
           name: Install local dependencies
           command: npm ci
