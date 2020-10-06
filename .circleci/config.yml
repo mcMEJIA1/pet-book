@@ -15,6 +15,7 @@ jobs:
   test:
     <<: *job_defaults
     steps:
+      - checkout
       - run:
           name: install angular/cli
           command: npm install @angular/cli
@@ -22,9 +23,9 @@ jobs:
           name: Install local dependencies
           command: npm install
       - restore_cache:
-        keys:
-        - v1-dependencies-{{ checksum "package-lock.json" }}
-        - v1-dependencies-i
+          keys:
+          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-dependencies-i
       - run:
           name: test application
           command: npm run test-ci
