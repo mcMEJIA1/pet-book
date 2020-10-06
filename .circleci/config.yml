@@ -11,6 +11,13 @@ cache_key: &cache_key pet-book-deps-cache-{{ .Branch }}-{{ checksum "package-loc
 dist_key: &dist_key pet-book-dist-{{ .Revision }}
 
 jobs:
+  install-angular:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - run:
+          name: install-angular
+          command: npm install -g @angular/cli
 
   npm-install:
     <<: *job_defaults
@@ -48,7 +55,10 @@ workflows:
   version: 2
   build-test-release:
     jobs:
-      - npm-install
+      - install-angular
+      - npm-install:
+          requires:
+            - install-angular
       - test-lib:
           requires:
             - npm-install
