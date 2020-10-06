@@ -1,20 +1,15 @@
-job:
-  commit:
+jobs:
+  build:
     docker:
-      - image: 'openjdk:11'
+      - image: 'node:latest'
     steps:
       - checkout
-      - run: mvn package
-      - sonarcloud/scan_with_maven
+      - sonarcloud/scan
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
 version: 2.1
 workflows:
-  build-release:
+  main:
     jobs:
-      - commit:
+      - build:
           context: sonarcloud
-      - sonarcloud/check_quality_gate:
-          context: sonarcloud
-          requires:
-            - commit
