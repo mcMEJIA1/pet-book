@@ -7,7 +7,7 @@ job_defaults: &job_defaults
       CHROME_BIN: /usr/bin/google-chrome
   working_directory: ~/pet-book
 
-cache_key: &cache_key pet-book-{{ .Branch }}-{{ checksum “package-lock.json” }}
+cache_key: &cache_key pet-book-deps-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 dist_key: &dist_key pet-book-dist-{{ .Revision }}
 
 jobs:
@@ -20,20 +20,20 @@ jobs:
           key: *cache_key
       - run:
           name: npm-install
-          command: npm install
+          command: npm ci
       - save_cache:
           key: *cache_key
           paths:
             - node_modules
 
-  unit-test:
+  test-lib:
     <<: *job_defaults
     steps:
       - checkout
       - restore_cache:
           key: *cache_key
       - run:
-          name: unit-test
+          name: test-lib
           command: npm run test-ci-2
 
   build-lib:
@@ -44,8 +44,38 @@ jobs:
           key: *cache_key
       - run:
           name: build-lib
-          command: nom run build --prod
+          command: npm run build --prod
       - save_cache:
           key: *dist_key
           paths:
-            - dist
+              - dist
+
+  test-app:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: *cache_key
+      - restore_cache:
+          key: *dist_key
+      - run:
+          name: test-app
+          command: npm run test-ci-2
+
+workflows:
+  version: 2
+  build-test-release:
+    jobs:
+      - npm-install
+      - test-lib:
+          requires:
+            - npm-install
+      - build-lib:
+          requires:
+            - test-lib
+      - test-app:
+          requires:
+            - build-lib
+          filters:
+            branches:
+              only: master
