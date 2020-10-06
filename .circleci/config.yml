@@ -3,9 +3,6 @@ jobs:
     docker:
       - image: 'node:latest'
     steps:
-      - run:
-        name: install-angular
-        command: npm install @angular/cli
       - checkout
       - sonarcloud/scan
 orbs:
