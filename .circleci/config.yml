@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
   build:
@@ -10,20 +10,27 @@ jobs:
           name: install node
           command: sudo apt-get install -y nodejs
       - checkout
+      - sonarcloud/scan
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package-lock.json" }}
           - v1-dependencies-i
-      - run:
-          name: install angular/cli
-          command: npm install @angular/cli
       - run: 
           name: Install local dependencies
           command: npm ci
+      - run:
+          name: install angular/cli
+          command: npm install @angular/cli
       - save_cache:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
               - node_modules
-      - run: 
-          name: unit-test
-          command: npm run test-ci-2
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.0
+
+version: 2.1
+workflows:
+  main:
+    jobs:
+      - build:
+          context: sonarcloud
