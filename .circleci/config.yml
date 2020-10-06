@@ -30,8 +30,6 @@ jobs:
     <<: *job_defaults
     steps:
       - checkout
-      - restore_cache:
-          key: *cache_key
       - run:
           name: test-lib
           command: npm run test-ci-2
