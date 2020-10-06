@@ -14,11 +14,14 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package-lock.json" }}
           - v1-dependencies-
+      - run:
+          name: install angular/cli
+          command: npm install -g @angular/cli
       - run: 
           name: Install local dependencies
           command: npm ci
       - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
               - node_modules
       - run: 
