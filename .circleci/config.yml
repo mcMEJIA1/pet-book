@@ -15,7 +15,13 @@ jobs:
           command: npm ci
       - run:
           name: Install libXext.i686
-          command: sudo apt-get install libXext.i686 -y
+          command: sudo apt-get install libXext.x86_64 -y
+      - run:
+          name: Install libXext.i686
+          command: sudo apt-get install libXrender.x86_64 -y
+      - run:
+          name: Install libXext.i686
+          command: sudo apt-get install libXtst.x86_64 -y
       - save_cache:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
