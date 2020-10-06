@@ -1,40 +1,20 @@
-jobs:
-  build:
-    working_directory: ~/pet-book
+job:
+  commit:
     docker:
-      - image: circleci/node:latest
+      - image: 'openjdk:11'
     steps:
-      - run:
-          name: install node
-          command: sudo apt-get install -y nodejs
       - checkout
       - run: mvn package
       - sonarcloud/scan_with_maven
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-          - v1-dependencies-i
-      - run: 
-          name: Install local dependencies
-          command: npm install
-      - run:
-          name: install angular/cli
-          command: npm install @angular/cli
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-          paths:
-              - node_modules
-
-
 orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.0
+  sonarcloud: extendaretail/sonarcloud@1.0.0
 version: 2.1
 workflows:
-  build-release:
+  main:
     jobs:
-      - build:
+      - commit:
           context: sonarcloud
       - sonarcloud/check_quality_gate:
           context: sonarcloud
-          requires: 
-            - build
+          requires:
+            - commit
