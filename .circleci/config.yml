@@ -18,10 +18,6 @@ jobs:
       - run:
           name: install-npm
           command: npm install
-      - save_cache:
-          key: dependency- -{{ checksum "package.json" }}
-          paths: 
-            - ./node_modules
       - run:
           name: build
           command: npm run build --prod
