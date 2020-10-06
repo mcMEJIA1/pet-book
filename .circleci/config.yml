@@ -21,7 +21,7 @@ jobs:
             - ./node_modules
       - run:
           name: build
-          command: ng build --prod
+          command: npm run build --prod
       - run:
           name: tests
           command: npm run test-ci
