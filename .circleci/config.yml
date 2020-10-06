@@ -1,15 +1,14 @@
-version: 2.1
+version: 2
 
 job_defaults: &job_defaults
   docker:
-    - image: circleci/node:latest
-      enviroment:
-        CHROME_BIN: /usr/bin/google-chrome
+  - image: circleci/node:latest
+    environment:
+      CHROME_BIN: /usr/bin/google-chrome
   working_directory: ~/pet-book
 
 cache_key: &cache_key pet-book-{{ .Branch }}-{{ checksum “package-lock.json” }}
 dist_key: &dist_key pet-book-dist-{{ .Revision }}
-
 
 jobs:
 
@@ -18,38 +17,38 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        key: *cache_key
+          key: *cache_key
       - run:
-        name: npm-install
-        command: npm install
+          name: npm-install
+          command: npm install
       - save_cache:
-        key: *cache_key
-        paths:
-          - node_modules
+          key: *cache_key
+          paths:
+            - node_modules
 
   unit-test:
     <<: *job_defaults
     steps:
       - checkout
       - restore_cache:
-        key: *cache_key
+          key: *cache_key
       - run:
-        name: unit-test
-        command: npm run test-ci-2
+          name: unit-test
+          command: npm run test-ci-2
 
   build-lib:
     <<: *job_defaults
     steps:
       - checkout
       - restore_cache:
-        key: *cache_key
+          key: *cache_key
       - run:
-        name: build-lib
-        command: nom run build --prod
+          name: build-lib
+          command: nom run build --prod
       - save_cache:
-        key: *dist_key
-        paths:
-          - dist
+          key: *dist_key
+          paths:
+            - dist
 
 workflows:
   version: 2
