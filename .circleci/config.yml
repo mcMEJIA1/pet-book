@@ -10,11 +10,8 @@ jobs:
           name: install node
           command: sudo apt-get install -y nodejs
       - run:
-          name: grant access
-          command: sudo chown -R $USER /usr/local/lib/node_modules
-      - run:
           name: install angular/cli
-          command: npm install -g @angular/cli
+          command: npm install @angular/cli
       - checkout
       - restore_cache:
           keys:
