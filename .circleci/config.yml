@@ -24,14 +24,3 @@ jobs:
       - run: 
           name: unit-test
           command: npm run test-ci-2
-
-workflows:
-  version: 2
-  test_workflow:
-    jobs:
-      - deploy:
-        filters:
-          branches:
-            only:
-              - circleci-project-setup
-              - master
