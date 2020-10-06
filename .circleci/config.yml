@@ -1,23 +1,65 @@
 version: 2.1
+
+job_defaults: &job_defaults
+  docker:
+    - image: circleci/node:latest
+      enviroment:
+        CHROME_BIN: /usr/bin/google-chrome
+  working_directory: ~/pet-book
+
+cache_key: &cache_key pet-book-{{ .Branch }}-{{ checksum “package-lock.json” }}
+dist_key: &dist_key pet-book-dist-{{ .Revision }}
+
+
 jobs:
-  build:
-    working_directory: ~/pet-book
-    docker:
-      - image: circleci/node:12.18.3
+
+  npm-install:
+    <<: *job_defaults
     steps:
       - checkout
-      - run:
-          name: update-npm
-          command: "sudo npm install -g
-          npm@latest"
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+        key: *cache_key
       - run:
-          name: install-npm
-          command: npm install
+        name: npm-install
+        command: npm install
+      - save_cache:
+        key: *cache_key
+        paths:
+          - node_modules
+
+  unit-test:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - restore_cache:
+        key: *cache_key
       - run:
-          name: build
-          command: npm run build --prod
+        name: unit-test
+        command: npm run test-ci-2
+
+  build-lib:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - restore_cache:
+        key: *cache_key
       - run:
-          name: tests
-          command: npm run test-ci
+        name: build-lib
+        command: nom run build --prod
+      - save_cache:
+        key: *dist_key
+        paths:
+          - dist
+
+workflows:
+  version: 2
+  build-test-release:
+    jobs:
+      - npm-install
+      - unit-test:
+        requires:
+          - npm-install
+      - build-lib:
+        requires:
+          - unit-test
+
