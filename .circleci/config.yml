@@ -9,14 +9,14 @@ jobs:
       - run:
           name: install node
           command: sudo apt-get install -y nodejs
-      - run:
-          name: install angular/cli
-          command: npm install @angular/cli
       - checkout
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package-lock.json" }}
           - v1-dependencies-i
+      - run:
+          name: install angular/cli
+          command: npm install @angular/cli
       - run: 
           name: Install local dependencies
           command: npm ci
