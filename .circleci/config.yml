@@ -1,7 +1,3 @@
-version: 2.1
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.0
-
 jobs:
   build:
     working_directory: ~/pet-book
@@ -28,12 +24,15 @@ jobs:
               - node_modules
       - run: mvn package
       - sonarcloud/scan_with_maven
-
+orbs:
+  sonarcloud: extendaretail/sonarcloud@1.0.0
+version: 2.1
 workflows:
-  jobs:
-    - build:
-        context: sonarcloud
-    - sonarcloud/check_quality_gate:
-        context: sonarcloud
-        requires:
-          - build
+  build-release:
+    jobs:
+      - build:
+          context: sonarcloud
+      - sonarcloud/check_quality_gate:
+          context: sonarcloud
+          requires: 
+            - build
