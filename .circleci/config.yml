@@ -28,7 +28,7 @@ jobs:
           - v1-dependencies-i
       - run:
           name: test application
-          command: npm run test-ci
+          command: npm run test-ci-2
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
