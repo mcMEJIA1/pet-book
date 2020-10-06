@@ -1,6 +1,6 @@
 job_defaults: &job_defaults
   docker:
-  - image: 'node:latest-browsers'
+  - image: circleci/node:latest-browsers
     environment:
       CHROME_BIN: /usr/bin/google-chrome
   working_directory: ~/pet-book
