@@ -1,10 +1,11 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/
+    working_directory: ~/pet-book
     docker:
       - image: circleci/node:12.18.3
     steps:
+      - checkout
       - run:
           name: update-npm
           command: "sudo npm install -g
