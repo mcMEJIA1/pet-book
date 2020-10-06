@@ -14,7 +14,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install-angular-cli
-          command: npm install -g @angular/cli
+          command: sudo npm install -g @angular/cli
       - run:
           name: install-npm
           command: npm install
