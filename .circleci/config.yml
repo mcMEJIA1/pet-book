@@ -27,6 +27,9 @@ jobs:
     <<: *job_defaults
     steps:
       - checkout
+      - run: 
+        name: Install local dependencies
+        command: npm install
       - run:
           name: build
           command: npm run build --prod
