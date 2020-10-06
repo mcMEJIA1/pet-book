@@ -42,3 +42,6 @@ workflows:
       - test:
           requires:
             - static-code-scan
+      - build:
+          requires:
+            - test
