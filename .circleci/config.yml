@@ -22,10 +22,6 @@ jobs:
       - run:
           name: install angular/cli
           command: npm install @angular/cli
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-          - v1-dependencies-i
       - run:
           name: test application
           command: npm run test-ci-2
