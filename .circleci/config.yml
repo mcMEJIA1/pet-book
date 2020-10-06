@@ -6,6 +6,9 @@ jobs:
     docker:
       - image: circleci/node:latest
     steps:
+      -run:
+          name: install node
+          command: apt-get install -y nodejs
       - checkout
       - restore_cache:
           keys:
