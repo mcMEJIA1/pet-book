@@ -18,7 +18,7 @@ jobs:
           - v1-dependencies-i
       - run: 
           name: Install local dependencies
-          command: npm ci
+          command: npm install
       - run:
           name: install angular/cli
           command: npm install @angular/cli
