@@ -6,11 +6,11 @@ process.env.CHROME_BIN = require('puppeteer').executablePath()
 module.exports = function (config) {
   config.set({
     basePath: '',
-    browsers: ['ChromeHeadless', 'ChromeHeadlessCI'],
+    browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadlessCI: {
           base: 'ChromeHeadless',
-          flags: ['–no-sandbox']
+          flags: ['-–no-sandbox']
         }
     },
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
