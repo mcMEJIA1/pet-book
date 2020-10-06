@@ -30,11 +30,10 @@ jobs:
       - sonarcloud/scan_with_maven
 
 workflows:
-  main:
-    jobs:
-      - build:
-          context: sonarcloud
-      - sonarcloud/check_quality_gate:
-          context: sonarcloud
-          requires:
-            - build
+  jobs:
+    - build:
+        context: sonarcloud
+    - sonarcloud/check_quality_gate:
+        context: sonarcloud
+        requires:
+          - build
