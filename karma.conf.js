@@ -7,14 +7,11 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     browsers: ['ChromeHeadless', 'ChromeHeadlessCI'],
-    browserDisconnectTimeout: 10000,
-    browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 60000,
     customLaunchers: {
-    ChromeHeadlessCI: {
-        base: 'ChromeHeadless',
-        flags: ['–no-sandbox', '–disable-setuid-sandbox', '–disable-gpu']
-      }
+      ChromeHeadlessCI: {
+          base: 'ChromeHeadless',
+          flags: ['–no-sandbox']
+        }
     },
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
