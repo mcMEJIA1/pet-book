@@ -6,7 +6,7 @@ jobs:
     docker:
       - image: circleci/node:latest
     steps:
-      -run:
+      - run:
           name: install node
           command: apt-get install -y nodejs
       - checkout
