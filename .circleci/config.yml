@@ -45,6 +45,4 @@ workflows:
       - build
       - test
       - static-code-scan:
-        requires:
-          - build
         context: sonarCloud
