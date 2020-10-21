@@ -45,4 +45,4 @@ workflows:
       - build
       - test
       - static-code-scan:
-        context: sonarCloud
+          context: sonarCloud
