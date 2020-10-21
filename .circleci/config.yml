@@ -1,26 +1,63 @@
-version: 2.1
+job_defaults: &job_defaults
+  docker:
+  - image: circleci/node:latest-browsers
+    environment:
+      CHROME_BIN: /usr/bin/google-chrome
+  working_directory: ~/pet-book
+
 jobs:
-  build:
-    working_directory: ~/
-    docker:
-      - image: circleci/node:12.18.3
+  static-code-scan:
+    <<: *job_defaults
     steps:
-      - run:
-          name: update-npm
-          command: "sudo npm install -g
-          npm@latest"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: install-npm
+      - checkout
+      - sonarcloud/scan
+  
+  test:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - run: 
+          name: Install local dependencies
           command: npm install
-      - save_cache:
-          key: dependency- -{{ checksum "package.json" }}
-          paths: 
-            - ./node_modules
+      - run:
+          name: test application
+          command: npm run test-ci
+  
+  build:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - run: 
+          name: Install local dependencies
+          command: npm install
       - run:
           name: build
-          command: ng build --prod
-      - run:
-          name: tests
-          command: npm run test-ci
+          command: npm run build --prod
+
+  deploy:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - aws-s3/sync:
+        arguments: |
+          --acl public-read \
+          --cache-control "max-age=86400"
+        aws-acces-key-id: AWS_ACCESS_KEY_ID
+        aws-region: AWS_DEFAULT_REGION
+        aws-secret-acces-key: AWS_SECRET_ACCESS_KEY
+        from: 
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.0
+  aws-s3: circleci/aws-s3@2.0.0
+
+version: 2.1
+workflows:
+  main:
+    jobs:
+      - build
+      - test
+      - static-code-scan:
+        requires:
+          - build
+          context: sonarCloud
+          
