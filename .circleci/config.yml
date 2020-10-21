@@ -34,17 +34,30 @@ jobs:
           name: build
           command: npm run build --prod
 
+  deploy:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - aws-s3/sync:
+        arguments: |
+          --acl public-read \
+          --cache-control "max-age=86400"
+        aws-acces-key-id: AWS_ACCESS_KEY_ID
+        aws-region: AWS_DEFAULT_REGION
+        aws-secret-acces-key: AWS_SECRET_ACCESS_KEY
+        from: 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.0
+  aws-s3: circleci/aws-s3@2.0.0
+
 version: 2.1
 workflows:
   main:
     jobs:
+      - build
+      - test
       - static-code-scan:
+        requires:
+          - build
           context: sonarCloud
-      - test:
-          requires:
-            - static-code-scan
-      - build:
-          requires:
-            - test
+          
