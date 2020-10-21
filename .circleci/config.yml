@@ -43,6 +43,10 @@ workflows:
   main:
     jobs:
       - build
-      - test
+      - test:
+          requires:
+            - build
       - static-code-scan:
           context: sonarCloud
+          requires:
+            - test
