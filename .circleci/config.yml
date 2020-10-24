@@ -55,19 +55,19 @@ jobs:
           root: ~/project
           paths: .
   
-    deploy:
-      executor: aws-cli/default
-      steps:
-        - attach_workspace:
-            at: ~/project
-        - aws-cli/install
-        - aws-cli/setup
-        - run:
-            name: Deploy app to AWS
-            command: aws s3 sync pet-book s3://pet-book-deploy-circleci
-        - run:
-            name: Deploy artifact to AWS
-            command: aws s3 cp pet-book/pet-book.zip s3://pet-book-deploy-circleci
+  deploy:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - aws-cli/install
+      - aws-cli/setup
+      - run:
+          name: Deploy app to AWS
+          command: aws s3 sync pet-book s3://pet-book-deploy-circleci
+      - run:
+          name: Deploy artifact to AWS
+          command: aws s3 cp pet-book/pet-book.zip s3://pet-book-deploy-circleci
 
 workflows:
   default:
