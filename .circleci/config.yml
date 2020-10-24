@@ -1,4 +1,4 @@
-verrsion: 2.1
+version: 2.1
 orbs:
   node: circleci/node@4.1.0
   browser-tools: circleci/browser-tools@1.0.1
@@ -68,4 +68,3 @@ workflows:
       - zip:
           requires:
             - build
-            
