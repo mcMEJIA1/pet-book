@@ -23,8 +23,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - prepare_scanner:
-         main_branch: main
+      - checkout
       - sonarcloud/scan_with_npm
       - sonarcloud/check_quality_gate
                         
