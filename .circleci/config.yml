@@ -23,9 +23,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - checkout
       - run:
-        name: Tatic Code Analysys
+        name: Satic Code Analysys
         command: |
           npm i -D sonarqube-scanner
           ./node_modules/sonarqube-scanner/dist/bin/sonar-scanner -Dsonar.login=$SONAR_AUTH_TOKEN
