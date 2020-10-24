@@ -24,12 +24,11 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-        name: Satic Code Analysys
-        command: |
-          npm i -D sonarqube-scanner
-          ./node_modules/sonarqube-scanner/dist/bin/sonar-scanner -Dsonar.login=$SONAR_AUTH_TOKEN
+          name: Static code Analysis
+          command: |
+            npm i -D sonarqube-scanner
+            ./node_modules/sonarqube-scanner/dist/bin/sonar-scanner -Dsonar.login=$SONAR_AUTH_TOKEN
       - sonarcloud/check_quality_gate
-                        
   build:
     executor: node/default
     steps:
