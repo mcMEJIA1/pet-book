@@ -16,13 +16,13 @@ jobs:
           name: Unit test
           command: npm run test-ci
       - persist_to_workspace:
-          root: ~/app
+          root: ~/project
           paths: .
   static_code_scan:
     executor: node/default
     steps:
       - attach_workspace:
-          at: ~/app
+          at: ~/project
       - run:
           name: Static code Analysis
           command: |
@@ -38,20 +38,20 @@ jobs:
           name: Build app
           command: ng build --prod
       - persist_to_workspace:
-          root: ~/app/dist
+          root: ~/project/dist
           paths: pet-book
   zip:
     machine: true
     steps:
       - attach_workspace:
-          at: ~/app
+          at: ~/project
       - run:
           name: Zipping artifact to deploy
-          command: docker run -v /home/circleci/app/pet-book:/to_zip -w /to_zip kramos/alpine-zip -r pet-book.zip /to_zip
+          command: docker run -v /home/circleci/project/pet-book:/to_zip -w /to_zip kramos/alpine-zip -r pet-book.zip /to_zip
       - store_artifacts:
           path: /home/circleci/app/pet-book/pet-book.zip
       - persist_to_workspace:
-          root: ~/app
+          root: ~/project
           paths: .
 
 workflows:
