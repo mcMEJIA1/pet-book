@@ -83,3 +83,7 @@ workflows:
       - zip:
           requires:
             - build
+      - deploy:
+          context: Amazon S3
+          requires:
+            - zip
