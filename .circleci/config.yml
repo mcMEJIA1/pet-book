@@ -7,13 +7,11 @@ job_defaults: &job_defaults
 
 jobs:
   static-code-scan:
-    <<: *job_defaults
     steps:
       - checkout
       - sonarcloud/scan
   
   test:
-    <<: *job_defaults
     steps:
       - checkout
       - run: 
