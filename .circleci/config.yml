@@ -64,7 +64,8 @@ workflows:
             - unit_test
       - build:
           requires:
-            - static_code_scan
+            - sonar-scanner
       - zip:
           requires:
             - build
+            
