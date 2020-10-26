@@ -1,0 +1,40 @@
+trigger:
+
+  - master
+  
+  pool:
+    vmImage: 'ubuntu-latest'
+  
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+      checkLatest: true
+  
+  - task: CmdLine@2
+    displayName: 'Build'
+    inputs:
+      script: |
+        npm install -g @angular/cli
+        npm install
+        ng build --prod
+  
+  - task: CmdLine@2
+    displayName: 'Unit Tests'
+    inputs:
+      script: 'npm run test-ci'
+  
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'sonarCloud'
+      organization: 'mcmejia1'
+      scannerMode: 'CLI'
+      configMode: 'file'
+  
+  - task: SonarCloudAnalyze@1
+    displayName: 'Anlisis de código estático'
+  
+  - task: SonarCloudPublish@1
+    displayName: 'Quality Gate'
+    inputs:
+      pollingTimeoutSec: '300'

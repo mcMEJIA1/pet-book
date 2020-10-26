@@ -5,10 +5,16 @@ orbs:
   sonarcloud: extendaretail/sonarcloud@0.0.2
   aws-cli: circleci/aws-cli@1.0.0
 
+parameters:
+  main_branch:
+    default: master
+    description: The name of the Sonar main branch.
+    type: string
+
 jobs:
   unit_test:
     executor: node/default
-    steps:
+    steps:6
       - checkout
       - node/install-packages
       - browser-tools/install-chrome
@@ -24,11 +30,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run:
-          name: Static code Analysis
-          command: |
-            npm i -D sonarqube-scanner
-            ./node_modules/sonarqube-scanner/dist/bin/sonar-scanner -Dsonar.login=$SONAR_AUTH_TOKEN
+      - sonarcloud/scan_with_npm
       - sonarcloud/check_quality_gate
   build:
     executor: node/default
