@@ -30,26 +30,37 @@ describe('ImageDetailsComponent', () => {
 
   beforeEach(() => {
     spy = spyOn(mockService, 'getImage').and.returnValue({
-      id: 1,
+      id: 2,
       brand: 'perro',
-      url: 'assets/images/perro3.jpg',
+      url: 'assets/images/perro2.jpg',
     });
-
+    // spy2 =  spyOn(mockService,'getImage').and.returnValue( null);
     fixture = TestBed.createComponent(ImageDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('se debe crear el image details', () => {
+  it('debe crearse el image details', () => {
     expect(component).toBeTruthy();
   });
 
-  it('cuando la imagen existe es 1 debe retornar el json del imageService', () => {
+  it('verifica si el metodo de ImageService, getImage fue llamado ', function () {
+    expect(mockService.getImage).toHaveBeenCalled();
+  });
+
+  it('verifica si el ImageDetail existe y esta definido', function () {
+    expect(component.image).toBeDefined();
+  });
+
+  it('cuando la imagen existe es 2  debe retornar el json  del imageService indicado', () => {
     expect(component.image).toEqual({
-      id: 1,
+      id: 2,
       brand: 'perro',
-      url: 'assets/images/perro3.jpg',
+      url: 'assets/images/perro2.jpg',
     });
   });
 
+  it('cuando se carga la pantalla , debe existir un contenedor con la clase img-container', () => {
+    expect(fixture.nativeElement.querySelector('.img-contaier')).toBeDefined();
+  });
 });

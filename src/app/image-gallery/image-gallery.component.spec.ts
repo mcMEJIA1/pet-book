@@ -30,12 +30,12 @@ describe('ImageGalleryComponent', () => {
     fixture.detectChanges();
   });
 
-  it('Debe crearse el componente', () => {
+  it('debe crearse el componente', () => {
     expect(component).toBeTruthy();
   });
 });
 
 const ImagesdelatilsMock = [
-  { id: 1, brand: 'perro', url: 'assets/images/perro3.jpg' },
-  { id: 2, brand: 'gato', url: 'assets/images/gato1.jpg' },
+  { id: 1, brand: 'perro', url: 'assets/images/perro1.jpg' },
+  { id: 2, brand: 'perro', url: 'assets/images/perro2.jpg' },
 ];
