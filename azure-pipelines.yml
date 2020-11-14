@@ -1,4 +1,4 @@
-trigger:
+  trigger:
 
   - master
   
@@ -38,3 +38,18 @@ trigger:
     displayName: 'Quality Gate'
     inputs:
       pollingTimeoutSec: '300'
+
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'Docker'
+      repository: 'pet-book'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: 'dist'
+      includeRootFolder: true
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      replaceExistingArchive: true
