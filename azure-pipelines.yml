@@ -42,20 +42,10 @@
   - task: Docker@2
     inputs:
       containerRegistry: 'Docker'
-      repository: 'pet-book'
-      command: 'build'
+      repository: 'mcmejia/pet-book'
+      command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
   
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'Docker Hub'
-      command: 'login'
-
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'Docker Hub'
-      repository: 'mcmejia/pet-book'
-      command: 'push'
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: 'dist'
@@ -63,3 +53,9 @@
       archiveType: 'zip'
       archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       replaceExistingArchive: true
+  
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
