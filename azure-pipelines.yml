@@ -18,33 +18,19 @@
         npm install -g @angular/cli
         npm install
         ng build --prod
-  
-  - task: CmdLine@2
-    displayName: 'Unit Tests'
-    inputs:
-      script: 'npm run test-ci'
-  
-  - task: SonarCloudPrepare@1
-    inputs:
-      SonarCloud: 'sonarCloud'
-      organization: 'mcmejia1'
-      scannerMode: 'CLI'
-      configMode: 'file'
-  
-  - task: SonarCloudAnalyze@1
-    displayName: 'Anlisis de código estático'
-  
-  - task: SonarCloudPublish@1
-    displayName: 'Quality Gate'
-    inputs:
-      pollingTimeoutSec: '300'
 
   - task: Docker@2
     inputs:
       containerRegistry: 'Docker'
       repository: 'pet-book'
-      command: 'buildAndPush'
+      command: 'build'
       Dockerfile: '**/Dockerfile'
+  
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'Docker'
+      repository: 'pet-book'
+      command: 'push'
 
   - task: ArchiveFiles@2
     inputs:
