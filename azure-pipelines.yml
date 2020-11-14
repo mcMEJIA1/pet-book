@@ -66,3 +66,12 @@
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'drop'
       publishLocation: 'Container'
+      
+  - task: S3Upload@1
+    inputs:
+      awsCredentials: 'AWS S3'
+      regionName: 'us-east-1'
+      bucketName: 'pet-book-deploy-circleci'
+      sourceFolder: '$(Build.ArtifactStagingDirectory)'
+      globExpressions: '*.zip'
+      targetFolder: 'artifact_azure'
