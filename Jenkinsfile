@@ -16,7 +16,7 @@ pipeline {
 
         stage ("deploy") {
             steps {
-                echo "Geploying pet-book..."
+                echo "Deploying pet-book..."
             }
         }
     }
