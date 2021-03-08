@@ -4,7 +4,11 @@ pipeline {
     stages {
         stage ("build") {
             steps {
-                echo 'Building pet-book...'
+                echo 'executing npm install...'
+                nodejs('Node-12.21') {
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
             }
         }
 
